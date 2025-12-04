@@ -1,0 +1,36 @@
+/* Simple reset */
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter, system-ui, Arial, sans-serif}
+body,html,#app{height:100%}
+#app{display:grid;grid-template-columns:220px 1fr;grid-template-rows:1fr auto;gap:0;background:#121212;color:#eaeaea}
+
+/* Sidebar */
+.sidebar{background:#080808;padding:20px;display:flex;flex-direction:column;gap:20px}
+.logo{font-size:20px;margin-bottom:6px}
+.logo span{color:#1db954}
+.sidebar nav a{display:block;padding:8px 0;color:#bdbdbd;cursor:pointer}
+.sidebar nav a.active{color:#fff;font-weight:600}
+.playlists h3{margin-top:10px;font-size:13px;color:#aaa}
+.playlists ul{list-style:none;margin-top:8px}
+.playlists li{padding:6px 0;cursor:pointer;color:#cfcfcf}
+
+/* Main */
+.main{padding:24px;overflow:auto}
+.header{margin-bottom:18px}
+.tracks table{width:100%;border-collapse:collapse}
+.tracks th,.tracks td{padding:8px 12px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.04)}
+.tracks tr:hover{background:rgba(255,255,255,0.02);cursor:pointer}
+.tracks td.duration{width:90px}
+
+/* Player Footer */
+.player{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:#181818;border-top:1px solid rgba(255,255,255,0.03)}
+.controls{display:flex;align-items:center;gap:8px}
+.controls button{background:transparent;border:0;color:#fff;font-size:18px;cursor:pointer}
+.controls input[type=range]{width:300px}
+
+/* Responsive */
+@media (max-width:800px){
+  #app{grid-template-columns:1fr;grid-template-rows:auto 1fr auto}
+  .sidebar{display:flex;flex-direction:row;gap:12px;overflow:auto}
+  .main{padding:12px}
+  .controls input[type=range]{width:140px}
+}

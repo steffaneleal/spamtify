@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Spotify Playlist Clone - Static</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <aside class="sidebar">
+      <h1 class="logo">Spoti<span>Braz</span></h1>
+      <nav>
+        <a class="active">Início</a>
+        <a>Pesquisar</a>
+        <a>Sua Biblioteca</a>
+      </nav>
+      <div class="playlists">
+        <h3>Playlists</h3>
+        <ul id="playlist-list"></ul>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="header">
+        <h2 id="playlist-title">Playlist: Dicção</h2>
+      </header>
+
+      <section class="tracks">
+        <table id="tracks-table">
+          <thead><tr><th>#</th><th>Título</th><th>Artista</th><th>Tempo</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </main>
+
+    <footer class="player">
+      <div class="track-info">
+        <div id="now-title">Nenhuma faixa tocando</div>
+        <div id="now-artist"></div>
+      </div>
+      <div class="controls">
+        <button id="prev">⏮</button>
+        <button id="play">▶️</button>
+        <button id="next">⏭</button>
+        <input id="progress" type="range" min="0" max="100" value="0" />
+      </div>
+      <audio id="audio"></audio>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
