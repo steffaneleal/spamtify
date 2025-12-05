@@ -117,6 +117,35 @@ const nowTitle = document.getElementById("now-title");
 const nowArtist = document.getElementById("now-artist");
 const progress = document.getElementById("progress");
 
+const playIcon =
+  '<i class="fa-solid fa-circle-play" style="color: #ffffff;"></i>';
+const pauseIcon =
+  '<i class="fa-solid fa-circle-pause" style="color: #ffffff;"></i>';
+
+/**
+ * Funções de Destaque
+ */
+
+// Função para aplicar/remover a borda verde na faixa de áudio tocando
+function highlightPlayingTrack() {
+  // 1. Remove a classe 'playing' de TODAS as linhas
+  document.querySelectorAll("#tracks-table tbody tr").forEach((tr) => {
+    tr.classList.remove("playing");
+  });
+
+  // 2. Se houver uma faixa válida sendo reproduzida, adiciona a classe 'playing'
+  if (currentIndex !== -1 && currentPlaylist.tracks[currentIndex]) {
+    const currentRow = tracksTableBody.children[currentIndex];
+    if (currentRow) {
+      currentRow.classList.add("playing");
+    }
+  }
+}
+
+/**
+ * Funções de Renderização
+ */
+
 function renderPlaylists() {
   playlistListEl.innerHTML = "";
   playlists.forEach((p, idx) => {
@@ -124,15 +153,18 @@ function renderPlaylists() {
     li.textContent = p.title;
     li.dataset.playlistId = p.id;
 
+    // Aplica a classe 'selected' se for a playlist atual na renderização inicial
     if (p.id === currentPlaylist.id) {
       li.classList.add("selected");
     }
 
     li.onclick = () => {
+      // 1. Remove a classe 'selected' de todos os itens
       document.querySelectorAll("#playlist-list li").forEach((item) => {
         item.classList.remove("selected");
       });
 
+      // 2. Adiciona a classe 'selected' no item clicado
       li.classList.add("selected");
 
       currentPlaylist = p;
@@ -156,22 +188,28 @@ function renderTracks() {
     tr.onclick = () => playIndex(i);
     tracksTableBody.appendChild(tr);
   });
+
+  // Re-aplica o destaque (borda verde) após renderizar a lista de faixas
+  highlightPlayingTrack();
 }
 
-const playIcon =
-  '<i class="fa-solid fa-circle-play" style="color: #ffffff;"></i>';
-const pauseIcon =
-  '<i class="fa-solid fa-circle-pause" style="color: #ffffff;"></i>';
+/**
+ * Funções de Controle de Áudio
+ */
 
 function playIndex(i) {
   const track = currentPlaylist.tracks[i];
   if (!track) return;
+
   currentIndex = i;
   audio.src = track.src;
   audio.play();
   nowTitle.textContent = track.title;
   nowArtist.textContent = track.artist;
   playBtn.innerHTML = pauseIcon;
+
+  // Destaca a nova faixa que está tocando
+  highlightPlayingTrack();
 }
 
 playBtn.onclick = () => {
@@ -213,6 +251,9 @@ audio.onended = () => {
   else {
     audio.currentTime = 0;
     playBtn.innerHTML = playIcon;
+    // Remove o destaque quando o áudio termina
+    currentIndex = -1;
+    highlightPlayingTrack();
   }
 };
 
