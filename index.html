@@ -55,22 +55,40 @@
       </main>
 
       <footer class="player">
-        <div class="track-info">
-          <div id="now-title">Nenhuma faixa tocando</div>
-          <div id="now-artist"></div>
+        <div class="track-details">
+          <div class="track-image-container">
+            <img
+              id="artist-img"
+              src="./assets/imgs/pam.png"
+              alt="Imagem do Artista"
+            />
+          </div>
+          <div class="track-info">
+            <div id="now-title">Nenhuma faixa tocando</div>
+            <div id="now-artist"></div>
+          </div>
         </div>
-        <div class="controls">
-          <a id="prev">
-            <i class="fa-solid fa-backward-step" style="color: #ffffff"></i
-          ></a>
-          <button id="play">
-            <i class="fa-solid fa-circle-play" style="color: #ffffff"></i>
-          </button>
-          <button id="next">
-            <i class="fa-solid fa-forward-step" style="color: #ffffff"></i>
-          </button>
+
+        <div class="controls-center">
+          <div class="controls">
+            <a id="prev">
+              <i class="fa-solid fa-backward-step" style="color: #ffffff"></i>
+            </a>
+            <button id="play">
+              <i class="fa-solid fa-circle-play" style="color: #ffffff"></i>
+            </button>
+            <button id="next">
+              <i class="fa-solid fa-forward-step" style="color: #ffffff"></i>
+            </button>
+          </div>
           <input id="progress" type="range" min="0" max="100" value="0" />
         </div>
+
+        <div class="controls-right">
+          <i class="fa-solid fa-list-ul"></i>
+          <i class="fa-solid fa-volume-high"></i>
+        </div>
+
         <audio id="audio"></audio>
       </footer>
     </div>

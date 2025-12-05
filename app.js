@@ -2,6 +2,7 @@ const playlists = [
   {
     id: "barulho",
     title: "Barulho",
+    artistImg: "./assets/imgs/pam.png",
     tracks: [
       {
         title: "Barulho Escada",
@@ -26,6 +27,7 @@ const playlists = [
   {
     id: "cantoria",
     title: "Cantoria",
+    artistImg: "./assets/imgs/pam.png",
     tracks: [
       {
         title: "Tá Namorando e Me Querendo",
@@ -44,6 +46,7 @@ const playlists = [
   {
     id: "diccao",
     title: "Dicção",
+    artistImg: "./assets/imgs/pam.png",
     tracks: [
       {
         title: "Dicção Parte 45",
@@ -68,6 +71,7 @@ const playlists = [
   {
     id: "efeito",
     title: "Frases de Efeito",
+    artistImg: "./assets/imgs/pam.png",
     tracks: [
       {
         title: "DOIS MESES",
@@ -116,24 +120,18 @@ const nextBtn = document.getElementById("next");
 const nowTitle = document.getElementById("now-title");
 const nowArtist = document.getElementById("now-artist");
 const progress = document.getElementById("progress");
-
+const artistImgEl = document.getElementById("artist-img");
 const playIcon =
   '<i class="fa-solid fa-circle-play" style="color: #ffffff;"></i>';
 const pauseIcon =
   '<i class="fa-solid fa-circle-pause" style="color: #ffffff;"></i>';
 
-/**
- * Funções de Destaque
- */
-
 // Função para aplicar/remover a borda verde na faixa de áudio tocando
 function highlightPlayingTrack() {
-  // 1. Remove a classe 'playing' de TODAS as linhas
   document.querySelectorAll("#tracks-table tbody tr").forEach((tr) => {
     tr.classList.remove("playing");
   });
 
-  // 2. Se houver uma faixa válida sendo reproduzida, adiciona a classe 'playing'
   if (currentIndex !== -1 && currentPlaylist.tracks[currentIndex]) {
     const currentRow = tracksTableBody.children[currentIndex];
     if (currentRow) {
@@ -142,10 +140,6 @@ function highlightPlayingTrack() {
   }
 }
 
-/**
- * Funções de Renderização
- */
-
 function renderPlaylists() {
   playlistListEl.innerHTML = "";
   playlists.forEach((p, idx) => {
@@ -153,24 +147,22 @@ function renderPlaylists() {
     li.textContent = p.title;
     li.dataset.playlistId = p.id;
 
-    // Aplica a classe 'selected' se for a playlist atual na renderização inicial
     if (p.id === currentPlaylist.id) {
       li.classList.add("selected");
     }
 
     li.onclick = () => {
-      // 1. Remove a classe 'selected' de todos os itens
       document.querySelectorAll("#playlist-list li").forEach((item) => {
         item.classList.remove("selected");
       });
 
-      // 2. Adiciona a classe 'selected' no item clicado
       li.classList.add("selected");
 
       currentPlaylist = p;
       currentIndex = -1;
       renderTracks();
       playlistTitle.textContent = "Playlist: " + p.title;
+      artistImgEl.src = currentPlaylist.artistImg;
     };
     playlistListEl.appendChild(li);
   });
@@ -189,13 +181,8 @@ function renderTracks() {
     tracksTableBody.appendChild(tr);
   });
 
-  // Re-aplica o destaque (borda verde) após renderizar a lista de faixas
   highlightPlayingTrack();
 }
-
-/**
- * Funções de Controle de Áudio
- */
 
 function playIndex(i) {
   const track = currentPlaylist.tracks[i];
@@ -208,7 +195,8 @@ function playIndex(i) {
   nowArtist.textContent = track.artist;
   playBtn.innerHTML = pauseIcon;
 
-  // Destaca a nova faixa que está tocando
+  artistImgEl.src = currentPlaylist.artistImg;
+
   highlightPlayingTrack();
 }
 
@@ -251,7 +239,6 @@ audio.onended = () => {
   else {
     audio.currentTime = 0;
     playBtn.innerHTML = playIcon;
-    // Remove o destaque quando o áudio termina
     currentIndex = -1;
     highlightPlayingTrack();
   }
@@ -260,3 +247,10 @@ audio.onended = () => {
 // init
 renderPlaylists();
 renderTracks();
+
+// Inicializa a imagem da artista na primeira carga
+if (currentPlaylist.artistImg) {
+  artistImgEl.src = currentPlaylist.artistImg;
+} else {
+  artistImgEl.src = "./assets/imgs/pam.png";
+}
