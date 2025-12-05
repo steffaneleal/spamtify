@@ -2,7 +2,7 @@ const playlists = [
   {
     id: "barulho",
     title: "Barulho",
-    artistImg: "./assets/imgs/pam.png",
+    artistImg: "./assets/imgs/pam.png ", 
     tracks: [
       {
         title: "Barulho Escada",
@@ -27,7 +27,7 @@ const playlists = [
   {
     id: "cantoria",
     title: "Cantoria",
-    artistImg: "./assets/imgs/pam.png",
+    artistImg: "./assets/imgs/pam.png ",
     tracks: [
       {
         title: "Tá Namorando e Me Querendo",
@@ -46,7 +46,7 @@ const playlists = [
   {
     id: "diccao",
     title: "Dicção",
-    artistImg: "./assets/imgs/pam.png",
+    artistImg: "./assets/imgs/pam.png ",
     tracks: [
       {
         title: "Dicção Parte 45",
@@ -71,7 +71,7 @@ const playlists = [
   {
     id: "efeito",
     title: "Frases de Efeito",
-    artistImg: "./assets/imgs/pam.png",
+    artistImg: "./assets/imgs/pam.png ",
     tracks: [
       {
         title: "DOIS MESES",
@@ -114,21 +114,35 @@ const playlistListEl = document.getElementById("playlist-list");
 const tracksTableBody = document.querySelector("#tracks-table tbody");
 const playlistTitle = document.getElementById("playlist-title");
 const audio = document.getElementById("audio");
+// Controles Desktop
 const playBtn = document.getElementById("play");
 const prevBtn = document.getElementById("prev");
 const nextBtn = document.getElementById("next");
+// Controles Mobile
+const playBtnMobile = document.getElementById("play-mobile");
+const prevBtnMobile = document.getElementById("prev-mobile");
+const nextBtnMobile = document.getElementById("next-mobile");
+
 const nowTitle = document.getElementById("now-title");
 const nowArtist = document.getElementById("now-artist");
 const progress = document.getElementById("progress");
 const artistImgEl = document.getElementById("artist-img");
+
 const playIcon =
   '<i class="fa-solid fa-circle-play" style="color: #ffffff;"></i>';
 const pauseIcon =
   '<i class="fa-solid fa-circle-pause" style="color: #ffffff;"></i>';
 
+// Função para sincronizar os ícones de Play/Pause (Desktop e Mobile)
+function updatePlayIcons(isPaused) {
+    const icon = isPaused ? playIcon : pauseIcon;
+    playBtn.innerHTML = icon;
+    playBtnMobile.innerHTML = icon;
+}
+
 // Função para aplicar/remover a borda verde na faixa de áudio tocando
 function highlightPlayingTrack() {
-  document.querySelectorAll("#tracks-table tbody tr").forEach((tr) => {
+  document.querySelectorAll("#tracks-table tbody tr").forEach(tr => {
     tr.classList.remove("playing");
   });
 
@@ -152,7 +166,7 @@ function renderPlaylists() {
     }
 
     li.onclick = () => {
-      document.querySelectorAll("#playlist-list li").forEach((item) => {
+      document.querySelectorAll("#playlist-list li").forEach(item => {
         item.classList.remove("selected");
       });
 
@@ -162,7 +176,7 @@ function renderPlaylists() {
       currentIndex = -1;
       renderTracks();
       playlistTitle.textContent = "Playlist: " + p.title;
-      artistImgEl.src = currentPlaylist.artistImg;
+      artistImgEl.src = currentPlaylist.artistImg; 
     };
     playlistListEl.appendChild(li);
   });
@@ -181,7 +195,7 @@ function renderTracks() {
     tracksTableBody.appendChild(tr);
   });
 
-  highlightPlayingTrack();
+  highlightPlayingTrack(); 
 }
 
 function playIndex(i) {
@@ -193,35 +207,50 @@ function playIndex(i) {
   audio.play();
   nowTitle.textContent = track.title;
   nowArtist.textContent = track.artist;
-  playBtn.innerHTML = pauseIcon;
+  
+  // Atualiza ambos os botões de play/pause
+  updatePlayIcons(false); 
 
-  artistImgEl.src = currentPlaylist.artistImg;
+  artistImgEl.src = currentPlaylist.artistImg; 
 
   highlightPlayingTrack();
 }
 
-playBtn.onclick = () => {
-  if (audio.paused) {
-    if (!audio.src) {
-      playIndex(0);
+// Função de Play/Pause unificada
+function togglePlay() {
+    if (audio.paused) {
+        if (!audio.src) {
+            playIndex(0);
+        } else {
+            audio.play();
+            updatePlayIcons(false);
+        }
     } else {
-      audio.play();
-      playBtn.innerHTML = pauseIcon;
+        audio.pause();
+        updatePlayIcons(true);
     }
-  } else {
-    audio.pause();
-    playBtn.innerHTML = playIcon;
-  }
-};
+}
 
-prevBtn.onclick = () => {
-  if (currentIndex > 0) playIndex(currentIndex - 1);
-};
+// Função de Próximo unificada
+function playNext() {
+    if (currentIndex < currentPlaylist.tracks.length - 1)
+        playIndex(currentIndex + 1);
+}
 
-nextBtn.onclick = () => {
-  if (currentIndex < currentPlaylist.tracks.length - 1)
-    playIndex(currentIndex + 1);
-};
+// Função de Anterior unificada
+function playPrev() {
+    if (currentIndex > 0) playIndex(currentIndex - 1);
+}
+
+
+// Event Listeners: Desktop e Mobile
+playBtn.onclick = togglePlay;
+prevBtn.onclick = playPrev;
+nextBtn.onclick = playNext;
+
+playBtnMobile.onclick = togglePlay;
+prevBtnMobile.onclick = playPrev;
+nextBtnMobile.onclick = playNext;
 
 audio.ontimeupdate = () => {
   if (audio.duration) {
@@ -238,8 +267,8 @@ audio.onended = () => {
   if (currentIndex < currentPlaylist.tracks.length - 1) nextBtn.click();
   else {
     audio.currentTime = 0;
-    playBtn.innerHTML = playIcon;
-    currentIndex = -1;
+    updatePlayIcons(true);
+    currentIndex = -1; 
     highlightPlayingTrack();
   }
 };
@@ -247,10 +276,9 @@ audio.onended = () => {
 // init
 renderPlaylists();
 renderTracks();
-
-// Inicializa a imagem da artista na primeira carga
-if (currentPlaylist.artistImg) {
-  artistImgEl.src = currentPlaylist.artistImg;
+if(currentPlaylist.artistImg) {
+    artistImgEl.src = currentPlaylist.artistImg;
 } else {
-  artistImgEl.src = "./assets/imgs/pam.png";
+    artistImgEl.src = './assets/imgs/pam.png';
 }
+updatePlayIcons(true); // Inicializa os botões com ícone de play (pausado)

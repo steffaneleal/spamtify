@@ -126,9 +126,7 @@ html,
   width: 90px;
 }
 
-/* ==================================== */
-/* NOVO PLAYER STYLES (Desktop)         */
-/* ==================================== */
+/*DESKTOP*/
 
 .player {
   grid-column: 1/-1;
@@ -145,7 +143,7 @@ html,
   display: flex;
   align-items: center;
   gap: 12px;
-  width: 30%; /* Ocupa 30% da área */
+  width: 30%;
 }
 
 .track-image-container img {
@@ -171,22 +169,27 @@ html,
   color: #b3b3b3;
 }
 
+/* Controles Mobile (Ocultos em Desktop) */
+.controls-mobile {
+    display: none; 
+}
+
 /* Centro: Controles de Reprodução e Progresso */
 .controls-center {
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-grow: 1; /* Ocupa o espaço central */
+  flex-grow: 1;
   max-width: 400px;
 }
 
 .controls {
   display: flex;
   align-items: center;
-  gap: 15px; /* Aumenta o espaço entre os botões */
+  gap: 15px;
 }
 
-/* Botões do Player */
+/* Botões do Player (Desktop) */
 .controls-center button,
 .controls-center a {
   background: transparent;
@@ -198,18 +201,18 @@ html,
 }
 
 .controls-center #play {
-  font-size: 32px; /* Ícone de play/pause maior */
+    font-size: 32px;
 }
 
 .controls-center #prev,
 .controls-center #next {
-  font-size: 18px;
+    font-size: 18px;
 }
 
 /* HOVER: Escurece o ícone */
 .controls-center button:hover,
 .controls-center a:hover {
-  opacity: 0.7;
+    opacity: 0.7;
 }
 
 /* Faixa de Progresso */
@@ -222,120 +225,121 @@ html,
 
 /* Direita: Controles Auxiliares */
 .controls-right {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  width: 30%; /* Ocupa 30% da área */
-  justify-content: flex-end;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 30%;
+    justify-content: flex-end;
 }
 .controls-right i {
-  cursor: pointer;
-  color: #b3b3b3;
-  transition: color 0.2s;
+    cursor: pointer;
+    color: #b3b3b3;
+    transition: color 0.2s;
 }
 .controls-right i:hover {
-  color: #fff;
+    color: #fff;
 }
 
-/* ==================================== */
-/* RESPONSIVIDADE (MOBILE)              */
-/* ==================================== */
-
+/*RESPONSIVIDADE*/
 @media (max-width: 800px) {
-  #app {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr auto;
-  }
+    #app {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto;
+    }
 
-  /* Oculta navegação e logo grandes em telas menores */
-  .sidebar-logo,
-  .sidebar nav {
-    display: none;
-  }
+    /* Oculta navegação e logo grandes em telas menores */
+    .sidebar-logo,
+    .sidebar nav {
+        display: none; 
+    }
+    
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px;
+    }
+    
+    .playlists h3 {
+        margin-top: 0;
+    }
 
-  .sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 12px;
-  }
+    /* Lista de playlists horizontal e scrollável */
+    .playlists ul {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 5px;
+        gap: 10px;
+        white-space: nowrap;
+    }
+    
+    /* Estilo de "tag" para os itens da playlist em mobile */
+    .playlists li,
+    .playlists li.selected {
+        display: inline-block;
+        padding: 4px 10px;
+        margin: 0;
+        border-radius: 20px;
+        font-size: 14px;
+    }
 
-  .playlists h3 {
-    margin-top: 0;
-  }
+    .main {
+        padding: 12px;
+        overflow-x: auto;
+    }
+    
+    /* Oculta colunas menos importantes na tabela em mobile */
+    .tracks thead th:nth-child(3),
+    .tracks tbody td:nth-child(3),
+    .tracks thead th:nth-child(4),
+    .tracks tbody td:nth-child(4) {
+        display: none;
+    }
+    
+    /* Player em Mobile: Apenas o container de detalhes da faixa deve ser visível */
+    .player {
+        justify-content: flex-start; /* Alinha tudo à esquerda */
+        padding: 8px 12px;
+    }
 
-  /* Lista de playlists horizontal e scrollável */
-  .playlists ul {
-    display: flex;
-    overflow-x: auto;
-    padding-bottom: 5px;
-    gap: 10px;
-    white-space: nowrap;
-  }
+    /* Oculta os controles de Desktop */
+    .controls-center,
+    .controls-right {
+        display: none;
+    }
+    
+    /* Detalhes da Faixa (Imagem e Info) no Mobile */
+    .track-details {
+        width: 100%; /* Ocupa a largura total para alinhamento */
+        flex-grow: 1; 
+        justify-content: flex-start; /* Reseta o alinhamento */
+    }
 
-  /* Estilo de "tag" para os itens da playlist em mobile */
-  .playlists li,
-  .playlists li.selected {
-    display: inline-block;
-    padding: 4px 10px;
-    margin: 0;
-    border-radius: 20px;
-    font-size: 14px;
-  }
+    /* Info da Faixa (Título/Artista) */
+    .track-details .track-info {
+        flex-grow: 1; /* Permite que o texto se expanda */
+        margin-right: 12px; /* Espaço antes dos botões mobile */
+    }
 
-  .main {
-    padding: 12px;
-    overflow-x: auto;
-  }
+    /* EXIBE OS CONTROLES MOBILE (NOVO ALINHAMENTO) */
+    .controls-mobile {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0; /* Impede que os botões diminuam */
+    }
 
-  /* Oculta colunas menos importantes na tabela em mobile */
-  .tracks thead th:nth-child(3),
-  .tracks tbody td:nth-child(3),
-  .tracks thead th:nth-child(4),
-  .tracks tbody td:nth-child(4) {
-    display: none;
-  }
-
-  /* Player em Mobile: Ocupa 100% da largura, mas simplificado */
-  .player {
-    justify-content: space-between;
-    padding: 8px 12px;
-  }
-
-  /* Oculta os controles centrais e da direita */
-  .controls-center,
-  .controls-right {
-    display: none;
-  }
-
-  /* Detalhes da Faixa (Imagem e Info) no Mobile */
-  .track-details {
-    width: auto; /* Ocupa apenas o espaço necessário */
-    flex-grow: 1; /* Permite crescer */
-  }
-
-  /* Move o botão de play/pause do centro para a direita dos detalhes no mobile */
-  .track-details .track-info {
-    /* Adiciona um espaço para o botão de play */
-    margin-right: 15px;
-  }
-
-  /* Botão de play/pause deve ser o único elemento de controle visível e grande */
-  .player #play {
-    display: block;
-    font-size: 32px;
-    background: none;
-    border: none;
-    color: white;
-  }
-
-  /* Oculta o botão play/pause no contêiner central em mobile, pois ele foi movido para a direita */
-  .controls-center #play {
-    display: none;
-  }
-
-  /* Centraliza os botões restantes (como play/pause) no player mobile */
-  .player .controls {
-    gap: 20px;
-  }
+    /* Estilo para os ícones mobile */
+    .controls-mobile a,
+    .controls-mobile button {
+        background: transparent;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-size: 20px;
+        padding: 0 5px;
+    }
+    .controls-mobile #play-mobile {
+        font-size: 32px;
+    }
 }
